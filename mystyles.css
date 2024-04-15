@@ -1,0 +1,82 @@
+body {
+    background-color: #04e45a;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #000000;
+}
+  
+ 
+/*mensaje de bienvenida*/
+  .welcome-container {
+    text-align: center;
+    padding-top: 50px;
+  }
+  
+  .welcome-text {
+    font-size: 70px;
+    font-weight: bold;
+    color: #333;
+  }
+
+
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Esto alinea los elementos horizontalmente */
+  }
+  
+  .register-btn-container {
+    margin-top: 10px; /* Agrega un espacio entre los botones */
+  }
+  
+  /*termina mensaje de bienvenida*/
+
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+
+
+
+
+  /*CREAR CUENTA*/
+  input {
+    margin-bottom: 30px;
+  }
+
+  .formulario_input-error{
+    display: none;
+  }
+  
+  .formulario_input-error-activo{
+    display: block;
+  }
+
+  .formulary_mensaje-exito{
+    font-size: 14px;
+    color: #119200;
+    display: none;
+  }
+
+  .formulary_mensaje-exito-activo{
+    display: block;
+  }
+/*
+  .formulary_group-incorrecto{
+
+  }
+  .formulary_group-correcto{
+
+  }
+*/
+
+  /*menu productos*/
+  .iconocarrito svg{
+     width: 400px;
+    height: 400px;
+  }

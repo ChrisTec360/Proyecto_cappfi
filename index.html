@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cappfi</title>
+
+  <!-- Incluye los estilos de Bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+
+  <!-- Incluye el script de jQuery -->
+  <script src="/js/jquery.min.js"></script>
+
+  <!-- Incluye el script de Bootstrap -->
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="mystyles.css">
+
+</head>
+
+<body style="background-color: rgb(255, 174, 0);">
+
+  <div class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
+
+    <div class="welcome-container m-4">
+
+      <div class="container d-flex align-items-center justify-content-center" style="height: 30vh;">
+        <div class="col-sm-6">
+
+          <!--BIENVENDIDA-->
+          <h1 class="welcome-text">Bienvenido</h1>
+
+          <!--LOGO-->
+          <div id="logo-container">
+            <img src="imgs/logoCappfi2Oficial.png" alt="logo cappfi"
+              style="width: 70%; height: auto; padding-top: 20px; padding-bottom: 20px;">
+          </div>
+
+          <!--FORMULARIO-->
+          <form action="logeo.php" method="post" id="formularioIngreso">
+
+            <!--CORREO-->
+            <div class="form-group">
+              <label for="correo" style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-weight: bold;">Correo
+                electrónico:</label>
+              <input type="email" class="form-control" id="correoIngreso" name="correoIngreso"
+                placeholder="control@cuautla.tecnm.mx" required>
+            </div>
+
+            <!--CONTRASEÑA-->
+            <div class="form-group">
+              <label for="contraseña"
+                style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-weight: bold;">Contraseña:</label>
+              <input type="password" class="form-control" id="contraseñaIngreso" name="contraseñaIngreso"
+                placeholder="contraseña" required>
+            </div>
+
+            <div>
+              <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;"
+                name="btnIngreso">Ingresar</button>
+            </div>
+
+          </form>
+
+          <!--CREAR CUENTA-->
+          <div class="m-2" id="buttons">
+            <div class="row mt-3">
+              <div class="col-md-12 text-center">
+                <a href="cuentacrear.php" style="margin-top: 20px;">Crear cuenta</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="scripts/codes.js"></script>
+
+  <script>
+    // Verifica si el parámetro "error" está presente en la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    // Si el parámetro "error" tiene el valor "1", muestra la alerta de Bootstrap
+    if (error === '1') {
+      const alerta = document.createElement('div');
+      alerta.className = 'alert alert-danger';
+      alerta.setAttribute('role', 'alert');
+      alerta.textContent = 'El correo o la contraseña son incorrectos';
+
+      // Agrega la alerta al inicio del cuerpo del documento
+      document.body.insertBefore(alerta, document.body.firstChild);
+    }
+  </script>
+</body>
+
+</html>
