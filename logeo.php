@@ -38,15 +38,17 @@ if(isset($_POST['btnIngreso'])) {
       //$_SESSION['correito'] = $correo;
       header("Location: peachepes/productosUsuarios.php");
     }
-    
+
     exit();
 
   } else {
     // Si la consulta no devuelve un resultado, muestra un mensaje de error
     // Si la consulta no devuelve un resultado, redirige a index.html con el parámetro "error=1"
-    header("Location: index.html?error=1");
-    echo "El correo o la contraseña son incorrectos";
-    exit();
+    //header("Location: index.html?error=1");
+    //echo "El correo o la contraseña son incorrectos";
+
+  header("Location: index.html?error=1");
+  exit();
 
   }
 }
