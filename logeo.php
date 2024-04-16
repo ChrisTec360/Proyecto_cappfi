@@ -22,8 +22,19 @@ if(isset($_POST['btnIngreso'])) {
     if(mysqli_num_rows($resultado) == 1) {
         $usuario = mysqli_fetch_assoc($resultado);
 
+        // Verifica si el usuario está bloqueado
+        if($usuario['bloqueado'] == 1 && strtotime($usuario['tiempo_bloqueo']) > time()) {
+          // El usuario está bloqueado, redirige con un mensaje de error
+          header("Location: index.html?error=blocked");
+          exit();
+        }
+
         // Verifica si la contraseña es correcta
         if(password_verify($contraseña, $usuario['contrasenaUsuario'])) {
+          // La contraseña es correcta, reinicia el contador de intentos fallidos
+          $reset_intentos = "UPDATE usuarios SET intentos = 0 WHERE idUsuario = " . $usuario['idUsuario'];
+          mysqli_query($conexion, $reset_intentos);
+
             // La contraseña es correcta, inicia sesión y redirige al usuario
             session_start();
             $_SESSION['idUsuario'] = $usuario['idUsuario'];
@@ -38,9 +49,25 @@ if(isset($_POST['btnIngreso'])) {
             }
             exit();
         } else {
-            // La contraseña es incorrecta, redirige con un mensaje de error
-            header("Location: index.html?incorrect=1");
-            exit();
+            // La contraseña es incorrecta, incrementa el contador de intentos fallidos
+            $intentos_fallidos = $usuario['intentos'] + 1;
+            $update_intentos = "UPDATE usuarios SET intentos = $intentos_fallidos WHERE idUsuario = " . $usuario['idUsuario'];
+            mysqli_query($conexion, $update_intentos);
+
+            // Si el usuario alcanza el límite de intentos fallidos, bloquea al usuario
+            if($intentos_fallidos >= 3) {
+              $tiempo_bloqueo = date('Y-m-d H:i:s', strtotime('+2 minutes'));
+              $bloquear_usuario = "UPDATE usuarios SET bloqueado = 1, tiempo_bloqueo = '$tiempo_bloqueo' WHERE idUsuario = " . $usuario['idUsuario'];
+              mysqli_query($conexion, $bloquear_usuario);
+
+              // Redirige con un mensaje de error
+              header("Location: index.html?error=blocked");
+              exit();
+            } else {
+              // La contraseña es incorrecta, redirige con un mensaje de error
+              header("Location: index.html?incorrect=1");
+              exit();
+            }
         }
     } else {
         // No se encontró ningún usuario con el correo proporcionado, redirige con un mensaje de error
