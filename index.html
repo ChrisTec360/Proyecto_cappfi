@@ -84,18 +84,27 @@
   <script>
     // Verifica si el parámetro "error" está presente en la URL
     const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
+
+    const incorrecta = urlParams.get('incorrect');
+    const notfound = urlParams.get('notfound');
 
     // Si el parámetro "error" tiene el valor "1", muestra la alerta de Bootstrap
-    if (error === '1') {
-
+    if (incorrecta === '1') {
       Swal.fire({
-                  icon: 'error',
-                  title: 'Error',
-                  text: 'Usuario o contraseña incorrectos',
-              });
-
+                icon: 'error',
+                title: 'Error',
+                text: 'Contraseña incorrecta',
+      });
     }
+
+    if (notfound === '1') {
+      Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'El usuario no existe',
+      });
+    }
+
   </script>
 </body>
 
