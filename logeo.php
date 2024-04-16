@@ -25,7 +25,7 @@ if(isset($_POST['btnIngreso'])) {
         // Verifica si el usuario está bloqueado
         if($usuario['bloqueado'] == 1 && strtotime($usuario['tiempo_bloqueo']) > time()) {
           // El usuario está bloqueado, redirige con un mensaje de error
-          header("Location: index.html?error=blocked");
+          header("Location: index.html?bloqueo=1");
           exit();
         }
 
@@ -61,7 +61,7 @@ if(isset($_POST['btnIngreso'])) {
               mysqli_query($conexion, $bloquear_usuario);
 
               // Redirige con un mensaje de error
-              header("Location: index.html?error=blocked");
+              header("Location: index.html?bloqueo=1");
               exit();
             } else {
               // La contraseña es incorrecta, redirige con un mensaje de error

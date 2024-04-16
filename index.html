@@ -87,6 +87,8 @@
 
     const incorrecta = urlParams.get('incorrect');
     const notfound = urlParams.get('notfound');
+    const bloqueado = urlParams.get('bloqueo');
+
 
     // Si el parámetro "error" tiene el valor "1", muestra la alerta de Bootstrap
     if (incorrecta === '1') {
@@ -102,6 +104,14 @@
                 icon: 'error',
                 title: 'Error',
                 text: 'El usuario no existe',
+      });
+    }
+
+    if (bloqueado === '1') {
+      Swal.fire({
+                icon: 'error',
+                title: 'Alcanzaste el número máximo de intentos',
+                text: 'Prueba a entrar más tarde',
       });
     }
 
