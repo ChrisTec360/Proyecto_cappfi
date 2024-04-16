@@ -18,9 +18,18 @@ if(isset($_POST['btnIngreso'])) {
     $consulta = "SELECT * FROM usuarios WHERE correoUsuario='$correo'";
     $resultado = mysqli_query($conexion, $consulta);
 
+
+
     // Verifica si se encontró algún usuario con el correo proporcionado
     if(mysqli_num_rows($resultado) == 1) {
         $usuario = mysqli_fetch_assoc($resultado);
+
+        // Verifica si el usuario está bloqueado y si han pasado dos minutos desde el bloqueo
+        if($usuario['bloqueado'] == 1 && strtotime($usuario['tiempo_bloqueo']) < time()) {
+          // Elimina el bloqueo del usuario
+          $desbloquear_usuario = "UPDATE usuarios SET bloqueado = 0, tiempo_bloqueo = NULL WHERE idUsuario = " . $usuario['idUsuario'];
+          mysqli_query($conexion, $desbloquear_usuario);
+        }
 
         // Verifica si el usuario está bloqueado
         if($usuario['bloqueado'] == 1 && strtotime($usuario['tiempo_bloqueo']) > time()) {
@@ -35,12 +44,20 @@ if(isset($_POST['btnIngreso'])) {
           $reset_intentos = "UPDATE usuarios SET intentos = 0 WHERE idUsuario = " . $usuario['idUsuario'];
           mysqli_query($conexion, $reset_intentos);
 
+            // Obtener el ID del usuario
+            $usuario_id = $usuario['idUsuario'];
+
             // La contraseña es correcta, inicia sesión y redirige al usuario
             session_start();
             $_SESSION['idUsuario'] = $usuario['idUsuario'];
             $_SESSION['correoUser'] = $correo;
             $_SESSION['nombreUsuario'] = $usuario['nombreUsuario'];
             $_SESSION['rolUsuario'] = $usuario['rolUsuario'];
+
+            // Usuario válido, realiza la inserción en la tabla de ingresos
+            $hora_ingreso = date('Y-m-d H:i:s');
+            $insertar_ingreso = "INSERT INTO ingresos (FK_User, Hora) VALUES ('$usuario_id', '$hora_ingreso')";
+            mysqli_query($conexion, $insertar_ingreso);
 
             if($usuario['rolUsuario'] == 'admin') {
                 header("Location: menuproductos.php");
