@@ -30,7 +30,7 @@ if(isset($_POST['btnIngreso'])) {
         }
 
         // Verifica si la contraseña es correcta
-        if(password_verify($contraseña, $usuario['contrasenaUsuario'])) {
+        if($contraseña === $usuario['contrasenaUsuario']) {
           // La contraseña es correcta, reinicia el contador de intentos fallidos
           $reset_intentos = "UPDATE usuarios SET intentos = 0 WHERE idUsuario = " . $usuario['idUsuario'];
           mysqli_query($conexion, $reset_intentos);
